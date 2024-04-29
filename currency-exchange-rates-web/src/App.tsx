@@ -19,7 +19,6 @@ function App() {
     try
     {
       const rates = await updateExchangeRates();
-      console.log(rates);
       setExchangeRate(rates);
     }catch(e)
     {
