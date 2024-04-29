@@ -1,0 +1,9 @@
+@WebApplication1_HostAddress = https://api.nbp.pl/api/exchangerates/tables/
+
+GET {{WebApplication1_HostAddress}}a/today?format=json
+Accept: application/json
+
+###
+
+GET {{WebApplication1_HostAddress}}c/today/?format=json
+Accept: application/json
