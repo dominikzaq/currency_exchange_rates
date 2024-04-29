@@ -1,7 +1,7 @@
 import { client } from '../helpers/httpCommon';
 import { ExchangeRate } from '../types/type';
 
-const url = '/exchangerates';
+const url = '/exchangerate';
 
 export const getCurrentExchangeRates = async () => {
   const response = await client.get<ExchangeRate[]>(url);
