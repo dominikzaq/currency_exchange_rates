@@ -3,6 +3,7 @@ using CurrencyExchangeRates.Application;
 using CurrencyExchangeRates.Application.Services;
 using CurrencyExchangeRates.Infrastructure;
 using CurrencyExchangeRates.Infrastructure.Context;
+using Hangfire;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,12 +28,22 @@ builder.Services.AddHttpClient<INbpClientService, NbpClientService>((serviceProv
 })
 .SetHandlerLifetime(Timeout.InfiniteTimeSpan);
 
+// Add Hangfire services.
+builder.Services.AddHangfire(configuration => configuration
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings()
+    .UseInMemoryStorage());
+
+// Add the processing server as IHostedService
+builder.Services.AddHangfireServer();
 builder.Services
     .AddInfrastructure()
     .AddApplication();
-
 var app = builder.Build();
 app.UseMiddleware<ErrorHandlingMiddleware>();
+// Use Hangfire Dashboard
+app.UseHangfireDashboard();
+RecurringJob.AddOrUpdate<IExchangeRatesService>(Guid.NewGuid().ToString(), x => x.AddIfNoExistsAsync(), "16 12 * * 1-5", TimeZoneInfo.Local);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -55,3 +66,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
