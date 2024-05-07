@@ -1,5 +1,7 @@
-﻿using CurrencyExchangeRates.Application.Model;
-using CurrencyExchangeRates.Application.Services;
+﻿using CurrencyExchangeRates.Application.Commands;
+using CurrencyExchangeRates.Application.Queries;
+using CurrencyExchangeRates.Application.Responses;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
@@ -10,37 +12,40 @@ namespace CurrencyExchangeRates.Api.Controllers
     [Route("api/[controller]")]
     public class ExchangeRateController : ControllerBase
     {
-        private readonly IExchangeRatesService _exchangeRatesService;
+        private readonly IMediator _mediator;
 
-        public ExchangeRateController(IExchangeRatesService exchangeRatesService)
+        public ExchangeRateController(IMediator mediator)
         {
-            _exchangeRatesService = exchangeRatesService;
+            _mediator = mediator;
         }
 
         [HttpGet]
         [SwaggerOperation(Summary = "List all current exchange rates")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(IEnumerable<ExchangeRateDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<ExchangeRateResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-        public async Task<ActionResult<ExchangeRateDto>> GetCurrentExchangeRates()
+        public async Task<ActionResult<ExchangeRateResponse>> GetCurrentExchangeRates()
         {
-            var result = await _exchangeRatesService.GetAllByLastDateAsync();
+            var query = new GetAllExchangeRatesByLastDateQuery();
+            var result = await _mediator.Send(query);
 
             return Ok(result);
         }
 
         [HttpPost]
-        [SwaggerOperation(Summary = "Add if no actual and get exchange rates ")]
+        [SwaggerOperation(Summary = "Add if no actual and get exchange rates")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-        public async Task<ActionResult<ExchangeRateDto>> UpdateExchangeRates()
+        public async Task<ActionResult<ExchangeRateResponse>> UpdateExchangeRates()
         {
-            await _exchangeRatesService.AddIfNoExistsAsync();
+            var updateExchangeRateCommand = new UpdateExchangeRateCommand();
+            await _mediator.Send(updateExchangeRateCommand);
 
-            var result = await _exchangeRatesService.GetAllByLastDateAsync();
+            var getAllExchangeRatesByLastDateQuery = new GetAllExchangeRatesByLastDateQuery();
+            var result = await _mediator.Send(getAllExchangeRatesByLastDateQuery);
 
             return Ok(result);
         }

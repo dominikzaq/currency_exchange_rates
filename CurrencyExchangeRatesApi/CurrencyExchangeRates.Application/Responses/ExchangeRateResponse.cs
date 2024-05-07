@@ -1,6 +1,6 @@
-﻿namespace CurrencyExchangeRates.Application.Model
+﻿namespace CurrencyExchangeRates.Application.Responses
 {
-    public record ExchangeRateDto
+    public record ExchangeRateResponse
     {
         public string BankName { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;

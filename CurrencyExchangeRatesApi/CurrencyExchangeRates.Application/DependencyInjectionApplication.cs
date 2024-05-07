@@ -1,5 +1,5 @@
-﻿using CurrencyExchangeRates.Application.Services;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace CurrencyExchangeRates.Application
 {
@@ -7,7 +7,8 @@ namespace CurrencyExchangeRates.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddScoped<IExchangeRatesService, ExchangeRatesService>();
+            services.AddScoped<IBackgroundJob, BackgroundJob>();
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             return services;
         }

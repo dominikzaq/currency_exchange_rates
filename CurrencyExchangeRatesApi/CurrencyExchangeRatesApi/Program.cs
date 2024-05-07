@@ -43,7 +43,7 @@ var app = builder.Build();
 app.UseMiddleware<ErrorHandlingMiddleware>();
 // Use Hangfire Dashboard
 app.UseHangfireDashboard();
-RecurringJob.AddOrUpdate<IExchangeRatesService>(Guid.NewGuid().ToString(), x => x.AddIfNoExistsAsync(), "16 12 * * 1-5", TimeZoneInfo.Local);
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
