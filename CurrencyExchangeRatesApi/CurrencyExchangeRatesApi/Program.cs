@@ -44,6 +44,8 @@ app.UseMiddleware<ErrorHandlingMiddleware>();
 // Use Hangfire Dashboard
 app.UseHangfireDashboard();
 
+RecurringJob.AddOrUpdate<IBackgroundJob>(Guid.NewGuid().ToString(), x => x.RunJobAsync(), "16 12 * * 1-5", TimeZoneInfo.Local);
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

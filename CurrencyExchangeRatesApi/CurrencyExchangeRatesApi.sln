@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurrencyExchangeRates.Domai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurrencyExchangeRates.Infrastructure", "CurrencyExchangeRates.Infrastructure\CurrencyExchangeRates.Infrastructure.csproj", "{0FD2EBBF-31A5-4B94-AEAD-DE61A1A3354B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrencyExchangeRates.Tests.UnitTests", "CurrencyExchangeRates.Tests.UnitTests\CurrencyExchangeRates.Tests.UnitTests.csproj", "{D4A44348-A6B6-41D6-8F17-2625F0093D17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurrencyExchangeRates.UnitTests", "CurrencyExchangeRates.Tests.UnitTests\CurrencyExchangeRates.UnitTests.csproj", "{D4A44348-A6B6-41D6-8F17-2625F0093D17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

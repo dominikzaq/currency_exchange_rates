@@ -7,9 +7,6 @@ const getHeaders = {
 };
 
 export const client = axios.create({
-  withCredentials: true,
   baseURL: VITE_APP_API_ENDPOINT,
   headers: getHeaders,
 });
-
-

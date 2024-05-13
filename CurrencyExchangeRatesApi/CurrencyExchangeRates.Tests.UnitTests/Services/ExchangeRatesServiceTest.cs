@@ -7,7 +7,7 @@ using CurrencyExchangeRates.Domain.Entities;
 using CurrencyExchangeRates.Infrastructure.Repositories;
 using Moq;
 
-namespace CurrencyExchangeRates.Tests.UnitTests.Services
+namespace CurrencyExchangeRates.UnitTests.Services
 {
     public class ExchangeRatesServiceTest
     {
@@ -57,10 +57,11 @@ namespace CurrencyExchangeRates.Tests.UnitTests.Services
             var handler = new UpdateExchangeRateHandler(_exchangeRatesRepositoryMock.Object, _currencyRepositoryMock.Object, _nbpClientServiceMock.Object);
 
             // act
-            await handler.Handle(new UpdateExchangeRateCommand(), CancellationToken.None);
+            var result = await handler.Handle(new UpdateExchangeRateCommand(), CancellationToken.None);
 
             // assert
             _exchangeRatesRepositoryMock.Verify(x => x.AddRangeAsync(It.IsAny<List<ExchangeRate>>()), Times.Once);
+            Assert.True(result);
         }
     }
 }

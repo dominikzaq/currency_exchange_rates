@@ -1,4 +1,5 @@
-﻿using CurrencyExchangeRates.Application.Model;
+﻿using CurrencyExchangeRates.Application.Constants;
+using CurrencyExchangeRates.Application.Model;
 using CurrencyExchangeRates.Domain.Entities;
 
 namespace CurrencyExchangeRates.Application.Mapper
@@ -14,7 +15,7 @@ namespace CurrencyExchangeRates.Application.Mapper
                 Currency currency = currencies
                 .FirstOrDefault(c => string.Equals(c.Code, n.Code, StringComparison.InvariantCultureIgnoreCase)) ?? new Currency { Code = n.Code, Name = n.Currency };
 
-                ExchangeRate exchangeRate = new ExchangeRate { Mid = n.Mid, Date = nbpTableA.EffectiveDate, BankName = "Nbp" };
+                ExchangeRate exchangeRate = new ExchangeRate { Mid = n.Mid, Date = nbpTableA.EffectiveDate, BankName = BankConstants.NBP };
 
                 if (currency.Id == 0) exchangeRate.Currency = currency;
                 else exchangeRate.CurrencyId = currency.Id;

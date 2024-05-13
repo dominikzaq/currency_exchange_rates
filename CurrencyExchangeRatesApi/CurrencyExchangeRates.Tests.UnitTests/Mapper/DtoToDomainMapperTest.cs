@@ -2,7 +2,7 @@
 using CurrencyExchangeRates.Application.Model;
 using CurrencyExchangeRates.Domain.Entities;
 
-namespace CurrencyExchangeRates.Tests.UnitTests.Mapper
+namespace CurrencyExchangeRates.UnitTests.Mapper
 {
     public class DtoToDomainMapperTest
     {

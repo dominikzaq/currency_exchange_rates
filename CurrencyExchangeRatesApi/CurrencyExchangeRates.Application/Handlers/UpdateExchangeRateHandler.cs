@@ -7,7 +7,7 @@ using MediatR;
 
 namespace CurrencyExchangeRates.Application.Handlers
 {
-    public class UpdateExchangeRateHandler : IRequestHandler<UpdateExchangeRateCommand>
+    public class UpdateExchangeRateHandler : IRequestHandler<UpdateExchangeRateCommand, bool>
     {
         private readonly IExchangeRateRepository _exchangeRateRepository;
         private readonly ICurrencyRepository _currencyRepository;
@@ -20,7 +20,7 @@ namespace CurrencyExchangeRates.Application.Handlers
             _nbpClientService = nbpClientService;
         }
 
-        public async Task Handle(UpdateExchangeRateCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(UpdateExchangeRateCommand request, CancellationToken cancellationToken)
         {
             var currencies = await _currencyRepository.GetAllAsync();
             var lastDate = await _exchangeRateRepository.GetLastDateOrDefaultAsync();
@@ -31,7 +31,11 @@ namespace CurrencyExchangeRates.Application.Handlers
             {
                 var exchangeRates = nbpTableA!.ToExchangeRates(currencies);
                 await _exchangeRateRepository.AddRangeAsync(exchangeRates);
+
+                return true;
             }
+
+            return false;
         }
     }
 }

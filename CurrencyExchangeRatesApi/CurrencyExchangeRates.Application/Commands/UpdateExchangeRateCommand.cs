@@ -2,7 +2,7 @@
 
 namespace CurrencyExchangeRates.Application.Commands
 {
-    public class UpdateExchangeRateCommand : IRequest
+    public class UpdateExchangeRateCommand : IRequest<bool>
     {
     }
 }

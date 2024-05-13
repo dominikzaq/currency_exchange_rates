@@ -20,12 +20,12 @@ namespace CurrencyExchangeRates.Api.Controllers
         }
 
         [HttpGet]
-        [SwaggerOperation(Summary = "List all current exchange rates")]
+        [SwaggerOperation(Summary = "Get latest exchange rates")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(IEnumerable<ExchangeRateResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-        public async Task<ActionResult<ExchangeRateResponse>> GetCurrentExchangeRates()
+        public async Task<ActionResult<IEnumerable<ExchangeRateResponse>>> GetLatestExchangeRates()
         {
             var query = new GetAllExchangeRatesByLastDateQuery();
             var result = await _mediator.Send(query);
@@ -34,18 +34,15 @@ namespace CurrencyExchangeRates.Api.Controllers
         }
 
         [HttpPost]
-        [SwaggerOperation(Summary = "Add if no actual and get exchange rates")]
+        [SwaggerOperation(Summary = "Update exchange rates")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
         public async Task<ActionResult<ExchangeRateResponse>> UpdateExchangeRates()
         {
             var updateExchangeRateCommand = new UpdateExchangeRateCommand();
-            await _mediator.Send(updateExchangeRateCommand);
-
-            var getAllExchangeRatesByLastDateQuery = new GetAllExchangeRatesByLastDateQuery();
-            var result = await _mediator.Send(getAllExchangeRatesByLastDateQuery);
+            bool result = await _mediator.Send(updateExchangeRateCommand);
 
             return Ok(result);
         }
