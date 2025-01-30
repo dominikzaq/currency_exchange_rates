@@ -6,9 +6,9 @@ const url = '/exchangerate';
 export const getCurrentExchangeRates = async () => {
   const response = await client.get<ExchangeRate[]>(url);
   return response.data;
-}
+};
 
 export const updateExchangeRates = async () => {
-  const response = await client.post<ExchangeRate[]>(url);
+  const response = await client.post<boolean>(url);
   return response.data;
-}
+};

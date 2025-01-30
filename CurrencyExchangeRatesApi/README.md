@@ -2,7 +2,12 @@
 - Net 8
 - Database - sqlite
 - Entity Framework
+
+## Library
+
 - XUnit
+- Mediatr
+- Hangfire
 
 
 ## Create database

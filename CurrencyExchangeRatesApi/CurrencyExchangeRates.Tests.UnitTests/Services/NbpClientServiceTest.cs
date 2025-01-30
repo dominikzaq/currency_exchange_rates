@@ -1,12 +1,14 @@
-﻿using CurrencyExchangeRates.Application.Services;
+﻿using CurrencyExchangeRates.Application.Model;
+using CurrencyExchangeRates.Application.Services;
 
-namespace CurrencyExchangeRates.Tests.UnitTests.Services
+namespace CurrencyExchangeRates.UnitTests.Services
 {
     public class NbpClientServiceTest
     {
         [Fact]
-        public async Task GetCurrentExchanageRatesTableAAsync()
+        public async Task GetCurrentExchanageRatesTableAAsync_ShouldReturnExpectedResult()
         {
+            var expected = new NbpTableA();
             HttpClient client = new HttpClient()
             {
                 BaseAddress = new Uri("https://api.nbp.pl/api/exchangerates/tables/")

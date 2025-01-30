@@ -1,8 +1,5 @@
-﻿using CurrencyExchangeRates.Application.Services;
-using Microsoft.Extensions.DependencyInjection;
-using Quartz;
-using Quartz.Impl;
-using Quartz.Spi;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace CurrencyExchangeRates.Application
 {
@@ -10,22 +7,10 @@ namespace CurrencyExchangeRates.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddScoped<IExchangeRatesService, ExchangeRatesService>()
-                .AddBackgroundService();
+            services.AddScoped<IBackgroundJob, BackgroundJob>();
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             return services;
         }
-
-        public static IServiceCollection AddBackgroundService(this IServiceCollection services)
-        {
-            services
-                //.AddSingleton<MyJob>()
-                .AddSingleton<IJobFactory, JobFactory>()
-                .AddSingleton<ISchedulerFactory, StdSchedulerFactory>()
-                .AddHostedService<NpbBackgroundService>();
-
-            return services;
-        }
-
     }
 }

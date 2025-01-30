@@ -34,6 +34,12 @@ namespace CurrencyExchangeRates.Infrastructure.Repositories
 
             if (lastDate.HasValue)
             {
+                var test = _dbContext.ExchangeRates
+                 .Include(e => e.Currency)
+                 .Where(d => d.Date == lastDate)
+                 .OrderBy(e => e.Currency.Name)
+                 .ToQueryString();
+
                 var exchangeRates = await _dbContext.ExchangeRates
                     .Include(e => e.Currency)
                     .Where(d => d.Date == lastDate)

@@ -11,6 +11,7 @@ namespace CurrencyExchangeRates.Application.Services
     public class NbpClientService : INbpClientService
     {
         private readonly HttpClient _client;
+
         public NbpClientService(HttpClient client)
         {
             _client = client;
@@ -19,7 +20,8 @@ namespace CurrencyExchangeRates.Application.Services
 
         public async Task<NbpTableA?> GetCurrentExchanageRatesTableAAsync()
         {
-            List<NbpTableA> list = await _client.GetFromJsonAsync<List<NbpTableA>>("a/?format=json");
+            var list = await _client.GetFromJsonAsync<List<NbpTableA>>("a/?format=json");
+
             return list?.FirstOrDefault();
         }
     }
